@@ -10,18 +10,18 @@ arborist:
   enabled: true
   image:
     repository: 707767160287.dkr.ecr.us-east-1.amazonaws.com/gen3/arborist
-    tag: '2026.04'
+    tag: '2026.03'
 audit:
   enabled: true
   externalSecrets:
     auditG3auto: midrcprod-audit-g3auto
   image:
     repository: 707767160287.dkr.ecr.us-east-1.amazonaws.com/gen3/audit-service
-    tag: '2026.04'
+    tag: '2026.03'
   serviceAccount:
     annotations:
       eks.amazonaws.com/role-arn: arn:aws:iam::813684607867:role/midrcprod--midrcprod-helm--audit-sqs-receiver
-aws-sigv4-proxy:
+aws-es-proxy:
   autoscaling:
     enabled: false
     maxReplicas: 4
@@ -30,11 +30,14 @@ aws-sigv4-proxy:
   replicaCount: 4
   enabled: true
   esEndpoint: vpc-midrcprod-gen3-metadata-2-g3zccvv7awc5samwqp62bc5g6y.us-east-1.es.amazonaws.com
+  image:
+    repository: quay.io/cdis/aws-es-proxy
+    tag: v1.3.1
 awshelper:
   enabled: true
   image:
     repository: 707767160287.dkr.ecr.us-east-1.amazonaws.com/gen3/awshelper
-    tag: '2026.04'
+    tag: '2026.03'
 dashboard:
   dashboardConfig:
     bucket: dashboard-813684607867-midrcprod-gen3
@@ -42,13 +45,13 @@ dashboard:
   enabled: true
   image:
     repository: 707767160287.dkr.ecr.us-east-1.amazonaws.com/gen3/gen3-statics
-    tag: '2026.04'
+    tag: '2026.03'
   serviceAccount:
     annotations:
       eks.amazonaws.com/role-arn: arn:aws:iam::813684607867:role/midrcprod--midrcprod-helm--dashboard-access
 dicom-server:
   enabled: true
-  replicaCount: 2
+  replicaCount: 2  
   image:
     repository: 707767160287.dkr.ecr.us-east-1.amazonaws.com/gen3/gen3-orthanc
     tag: gen3-0.1.2
@@ -314,9 +317,6 @@ etl:
               - name: data_category
                 src: data_category
                 fn: set
-              - name: dicom_header_file_guid
-                src: dicom_header_file_guid
-                fn: set
               - name: data_file_source_node
                 src: source_node
                 fn: set
@@ -353,7 +353,6 @@ etl:
           - name: data_format
           - name: data_type
           - name: data_category
-          - name: dicom_header_file_guid
           - name: annotation_method
           - name: annotation_name
           - name: annotator_id
@@ -496,9 +495,9 @@ etl:
                 fn: set
   image:
     tube:
-      tag: '2026.04'
+      tag: '2026.03'
     spark:
-      tag: '2026.04'
+      tag: '2026.03'
 fence:
   autoscaling:
     enabled: false
@@ -528,7 +527,6 @@ fluentd:
     tag: v1.15.3-debian-cloudwatch-1.0
 global:
   pdb: true
-  awshelper_container_image: quay.io/cdis/awshelper:master
   aws:
     account: '813684607867'
     awsEsProxyRole: midrcprod--midrcprod-helm--es-access
@@ -541,7 +539,7 @@ global:
       enabled: true
       wafAclArn: arn:aws:wafv2:us-east-1:813684607867:regional/webacl/midrcprod-waf/6dae1fe2-287d-4cec-9537-0b8fa1f7d93c
   dev: false
-  dictionaryUrl: https://s3.amazonaws.com/dictionary-artifacts/midrc_dictionary/1.4.2/schema.json
+  dictionaryUrl: https://s3.amazonaws.com/dictionary-artifacts/midrc_dictionary/1.4.1/schema.json
   dispatcherJobNum: '10'
   environment: midrcprod
   externalSecrets:
@@ -575,7 +573,7 @@ guppy:
   esEndpoint: http://elasticsearch:9200
   image:
     repository: 707767160287.dkr.ecr.us-east-1.amazonaws.com/gen3/guppy
-    tag: '2026.04'
+    tag: '2026.03'
   indices:
     - index: midrc_case
       type: case
@@ -594,7 +592,7 @@ hatchery:
   jupyterNamespace: jupyter-pods
   image:
     repository: 707767160287.dkr.ecr.us-east-1.amazonaws.com/gen3/hatchery
-    tag: '2026.04'
+    tag: '2026.03'
   hotNode:
     enabled: true
   hatchery:
@@ -713,7 +711,7 @@ indexd:
     serviceCreds: midrcprod-indexd-service-creds
   image:
     repository: 707767160287.dkr.ecr.us-east-1.amazonaws.com/gen3/indexd
-    tag: '2026.04'
+    tag: '2026.03'
 manifestservice:
   enabled: false
 metadata:
@@ -729,12 +727,12 @@ metadata:
     metadataG3auto: midrcprod-metadata-g3auto
   image:
     repository: 707767160287.dkr.ecr.us-east-1.amazonaws.com/gen3/metadata-service
-    tag: '2026.04'
+    tag: '2026.03'
 mutatingWebhook:
   enabled: false
 ohif-viewer:
   enabled: true
-  replicaCount: 2
+  replicaCount: 2  
   image:
     repository: 707767160287.dkr.ecr.us-east-1.amazonaws.com/gen3/ohif-viewer
     tag: gen3-v3.9.3
@@ -958,7 +956,7 @@ peregrine:
   enabled: true
   image:
     repository: 707767160287.dkr.ecr.us-east-1.amazonaws.com/gen3/peregrine
-    tag: '2026.04'
+    tag: '2026.03'
 portal:
   autoscaling:
     enabled: false
@@ -985,7 +983,7 @@ revproxy:
   enabled: true
   image:
     repository: 707767160287.dkr.ecr.us-east-1.amazonaws.com/gen3/nginx
-    tag: '2026.04'
+    tag: '2026.03'
   ingress:
     aws:
       group: midrcprod
@@ -995,7 +993,7 @@ requestor:
   enabled: true
   image:
     repository: 707767160287.dkr.ecr.us-east-1.amazonaws.com/gen3/requestor
-    tag: '2026.04'
+    tag: '2026.03'
 sheepdog:
   autoscaling:
     enabled: false
@@ -1006,7 +1004,7 @@ sheepdog:
   enabled: true
   image:
     repository: 707767160287.dkr.ecr.us-east-1.amazonaws.com/gen3/sheepdog
-    tag: '2026.04'
+    tag: '2026.03'
 ssjdispatcher:
   serviceAccount:
     annotations:
@@ -1019,8 +1017,8 @@ ssjdispatcher:
     credsFile: midrcprod-ssjdispatcher-creds
   image:
     repository: 707767160287.dkr.ecr.us-east-1.amazonaws.com/gen3/ssjdispatcher
-    tag: '2026.04'
-  indexing: quay.io/cdis/indexs3client:2026.04
+    tag: '2026.03'
+  indexing: quay.io/cdis/indexs3client:2026.03
 wts:
   enabled: true
   externalSecrets:
@@ -1029,4 +1027,4 @@ wts:
     wtsOidcClient: midrcprod-wts-client-secret
   image:
     repository: 707767160287.dkr.ecr.us-east-1.amazonaws.com/gen3/workspace-token-service
-    tag: '2026.04'
+    tag: '2026.03'

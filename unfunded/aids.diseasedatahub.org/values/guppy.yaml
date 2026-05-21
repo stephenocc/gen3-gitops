@@ -1,13 +1,14 @@
 guppy:
+  # Lower cost
   resources:
     requests:
-      memory: 105Mi
-      cpu: 15m
+      memory: "105Mi"
+      cpu: "15m"
   enabled: true
   dbRestore: false
   image:
     repository: quay.io/cdis/guppy
-    tag: '2026.04'
+    tag: master
   indices:
     - index: daids
       type: subject

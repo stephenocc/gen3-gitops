@@ -9,8 +9,5 @@ etl:
       repository: quay.io/cdis/tube
       tag: master
   esEndpoint: elasticsearch
-  image:
-    tube:
-      tag: '2026.04'
-    spark:
-      tag: '2026.04'
+  # etlMapping:
+  #   mappings:

@@ -1,5 +1,4 @@
 global:
-  pdb: true
   aws:
     enabled: true
     account: "837801696852"
@@ -38,7 +37,6 @@ global:
   ddEnabled: false
 
 ambassador:
-  replicaCount: 2
   enabled: true
   jupyterNamespace: jupyter-pods-default
 
@@ -52,7 +50,6 @@ argo-wrapper:
   enabled: false
 
 audit:
-  replicaCount: 2
   enabled: true
   serviceAccount:
     annotations:
@@ -62,7 +59,6 @@ audit:
     createK8sAuditSecret: true
 
 aws-es-proxy:
-  replicaCount: 2
   enabled: true
   esEndpoint: ""
   externalSecrets:
@@ -70,19 +66,16 @@ aws-es-proxy:
   esEndpoint: vpc-gen3-ai-gen3-metadata-wcqwdpwxzoz3fpseni55ugqq6u.us-east-1.es.amazonaws.com
 
 dicom-server:
-  replicaCount: 2
   enabled: false
   externalSecrets:
     dbcreds: "gen3-ai-default-dicom-server-creds"
 
 dicom-viewer:
-  replicaCount: 2
   enabled: false
   externalSecrets:
     dbcreds: "gen3-ai-default-dicom-viewer-creds"
 
 embedding-management-service:
-  replicaCount: 2
   enabled: true
   embeddingsConfig: |
     {
@@ -128,7 +121,6 @@ fence:
     slack_send_dbgap: false
 
 frontend-framework:
-  replicaCount: 2
   enabled: true
   image:
     repository: "quay.io/cdis/cac-data-commons"
@@ -138,11 +130,9 @@ grafana:
   enabled: false
 
 guppy:
-  replicaCount: 2
   enabled: false
 
 hatchery:
-  replicaCount: 2
   enabled: true
   image:
     tag: feat_gpu-support
@@ -232,7 +222,6 @@ hatchery:
       }
 
 indexd:
-  replicaCount: 2
   enabled: true
   defaultPrefix: "dg.XXXX/"
   externalSecrets:
@@ -240,7 +229,6 @@ indexd:
     createK8sServiceCredsSecret: true
 
 manifestservice:
-  replicaCount: 2
   enabled: true
   manifestserviceG3auto:
     hostname: m3aicommons.org
@@ -255,14 +243,12 @@ manifestservice:
     createK8sManifestServiceSecret: true
 
 metadata:
-  replicaCount: 2
   enabled: true
   externalSecrets:
     dbcreds: "gen3-ai-default-metadata-creds"
     createK8sMetadataSecret: true
 
 peregrine:
-  replicaCount: 2
   enabled: true
   externalSecrets:
     dbcreds: "gen3-ai-default-sheepdg-creds"
@@ -279,11 +265,10 @@ requestor:
     dbcreds: "gen3-ai-default-requestor-creds"
 
 revproxy:
-  replicaCount: 3
+  replicas: 3
   enabled: true
 
 sheepdog:
-  replicaCount: 2
   enabled: true
   externalSecrets:
     dbcreds: "gen3-ai-default-sheepdog-creds"
@@ -295,7 +280,6 @@ sower:
   enabled: false
 
 wts:
-  replicaCount: 2
   enabled: true
   externalSecrets:
     dbcreds: "gen3-ai-default-wts-creds"

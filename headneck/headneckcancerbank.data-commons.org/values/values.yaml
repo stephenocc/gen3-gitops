@@ -1,5 +1,4 @@
 global:
-  pdb: true
   aws:
     enabled: true
     account: "419939494982"
@@ -69,7 +68,6 @@ audit:
       memory: "105Mi"
       cpu: "15m"
   enabled: true
-  replicaCount: 2
   serviceAccount:
     annotations:
       eks.amazonaws.com/role-arn: "arn:aws:iam::419939494982:role/gen3-service/headneck-default-audit-sa"
@@ -77,7 +75,7 @@ audit:
     dbcreds: "headneck_default-audit-creds"
     createK8sAuditSecret: true
 
-aws-sigv4-proxy:
+aws-es-proxy:
   # Lower cost
   resources:
     requests:
@@ -633,7 +631,6 @@ etl:
               - name: result_in_range_yn
                 src: result_in_range_yn
                 fn: set
-
 fence:
   # Lower cost
   resources:
@@ -674,7 +671,6 @@ frontend-framework:
       memory: "105Mi"
       cpu: "15m"
   enabled: true
-  replicaCount: 2
   image:
     repository: quay.io/cdis/head-neck-data-commons
     tag: main
@@ -872,7 +868,6 @@ ssjdispatcher:
   externalSecrets:
     credsFile: headneck_default-ssjdispatcher-creds
   indexing: 707767160287.dkr.ecr.us-east-1.amazonaws.com/gen3/indexs3client:2025.11
-
 sower:
   enabled: false
 

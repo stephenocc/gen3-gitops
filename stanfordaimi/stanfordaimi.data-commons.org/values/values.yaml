@@ -1,5 +1,4 @@
 global:
-  pdb: true
   aws:
     enabled: true
     account: 084375550014
@@ -33,13 +32,13 @@ ambassador:
   enabled: false
 
 arborist:
-  replicaCount: 2
+  # Lower cost
   resources:
     requests:
       memory: "105Mi"
       cpu: "15m"
   enabled: true
-  replicaCount: 2
+  replicaCount: 2  
   externalSecrets:
     dbcreds: "stanfordaimi_default-arborist-creds"
 
@@ -159,7 +158,7 @@ metadata:
       memory: "105Mi"
       cpu: "15m"
   enabled: true
-  replicaCount: 2
+  replicaCount: 2  
   externalSecrets:
     createK8sMetadataSecret: true
     dbcreds: "stanfordaimi_default-metadata-creds"
@@ -171,7 +170,7 @@ peregrine:
       memory: "105Mi"
       cpu: "15m"
   enabled: true
-  replicaCount: 2
+  replicaCount: 2  
   externalSecrets:
     dbcreds: "stanfordaimi_default-sheepdog-creds"
 
@@ -241,7 +240,7 @@ revproxy:
       memory: "105Mi"
       cpu: "15m"
   enabled: true
-  replicaCount: 2
+  replicaCount: 2  
 
 sower:
   enabled: false
@@ -256,7 +255,7 @@ sheepdog:
       memory: "105Mi"
       cpu: "15m"
   enabled: true
-  replicaCount: 2
+  replicaCount: 2  
   externalSecrets:
     dbcreds: "stanfordaimi_default-sheepdog-creds"
 

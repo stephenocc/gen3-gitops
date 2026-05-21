@@ -1,21 +1,25 @@
 arborist:
   replicaCount: 4
+  autoscaling:
+    enabled: false
+    maxReplicas: 4
+    minReplicas: 2
+    targetCPUUtilizationPercentage: 40
   enabled: true
   image:
     repository: 707767160287.dkr.ecr.us-east-1.amazonaws.com/gen3/arborist
-    tag: '2026.05'
+    tag: '2026.03'
 manifestservice:
   enabled: false
 wts:
   enabled: false
 audit:
   enabled: true
-  replicaCount: 2
   externalSecrets:
     auditG3auto: dcf-staging-audit-g3auto
   image:
     repository: 707767160287.dkr.ecr.us-east-1.amazonaws.com/gen3/audit-service
-    tag: '2026.05'
+    tag: '2026.03'
   serviceAccount:
     annotations:
       eks.amazonaws.com/role-arn: arn:aws:iam::584476192960:role/dcf-staging--dcf-staging-helm--audit-sqs-receiver
@@ -26,16 +30,14 @@ dashboard:
     bucket: dashboard-584476192960-dcf-staging-gen3
     prefix: nci-crdc-staging.datacommons.io
   enabled: true
-  replicaCount: 2
   image:
     repository: 707767160287.dkr.ecr.us-east-1.amazonaws.com/gen3/gen3-statics
-    tag: '2026.05'
+    tag: '2026.03'
   serviceAccount:
     annotations:
       eks.amazonaws.com/role-arn: arn:aws:iam::584476192960:role/dcf-staging--dcf-staging-helm--dashboard-access
 datareplicate:
   enabled: true
-  replicaCount: 2
   suspendCronjob: true
   externalSecrets:
     deploy: true
@@ -103,6 +105,11 @@ fence:
     annotations:
       eks.amazonaws.com/role-arn: arn:aws:iam::584476192960:role/dcf-staging--dcf-staging-helm--audit-sqs-sender
   replicaCount: 4
+  autoscaling:
+    enabled: false
+    maxReplicas: 4
+    minReplicas: 2
+    targetCPUUtilizationPercentage: 40
   enabled: true
   externalSecrets:
     createK8sGoogleAppSecrets: false
@@ -113,7 +120,7 @@ fence:
     fenceSshKeys: dcf-staging-fence-ssh-keys
   image:
     repository: 707767160287.dkr.ecr.us-east-1.amazonaws.com/gen3/fence
-    tag: '2026.05'
+    tag: '2026.03'
   usersync:
     usersync: true
     syncFromDbgap: true
@@ -123,7 +130,6 @@ fence:
     userYamlS3Path: s3://cdis-gen3-users/dcfstaging-users/user.yaml
 fluentd:
   enabled: true
-  replicaCount: 2
   image:
     repository: fluent/fluentd-kubernetes-daemonset
     tag: v1.15.3-debian-cloudwatch-1.0
@@ -154,7 +160,6 @@ global:
     kube_bucket: kube-dcf-staging-gen3
     logs_bucket: logs-dcf-staging-gen3
   portalApp: gitops
-  pdb: true
   postgres:
     dbCreate: false
   revproxyArn: arn:aws:acm:us-east-1:584476192960:certificate/b1f41138-54c0-4d5f-b2f3-7c5ebb20b555
@@ -162,32 +167,41 @@ indexd:
   defaultPrefix: dg.4DFC/
   useSingleTable: 'true'
   replicaCount: 4
+  autoscaling:
+    enabled: false
+    maxReplicas: 4
+    minReplicas: 2
+    targetCPUUtilizationPercentage: 40
   enabled: true
   externalSecrets:
     serviceCreds: dcf-staging-indexd-service-creds
   image:
     repository: 707767160287.dkr.ecr.us-east-1.amazonaws.com/gen3/indexd
-    tag: '2026.05'
+    tag: '2026.03'
 metadata:
   replicaCount: 4
+  autoscaling:
+    enabled: false
+    maxReplicas: 5
+    minReplicas: 2
+    targetCPUUtilizationPercentage: 40
   enabled: true
   esEndpoint: http://elasticsearch:9200
   externalSecrets:
     metadataG3auto: dcf-staging-metadata-g3auto
   image:
     repository: 707767160287.dkr.ecr.us-east-1.amazonaws.com/gen3/metadata-service
-    tag: '2026.05'
+    tag: '2026.03'
 mutatingWebhook:
   enabled: false
 peregrine:
   enabled: true
-  replicaCount: 2
   image:
     repository: 707767160287.dkr.ecr.us-east-1.amazonaws.com/gen3/peregrine
-    tag: '2026.05'
+    tag: '2026.03'
 portal:
   enabled: true
-  replicaCount: 2
+  replicaCount: 2  
   gitops:
     css: |-
       /* Hide Data Dictionary information */
@@ -471,32 +485,35 @@ portal:
       }
   image:
     repository: 707767160287.dkr.ecr.us-east-1.amazonaws.com/gen3/data-portal
-    tag: '2026.05'
+    tag: '2026.03'
 revproxy:
   replicaCount: 4
+  autoscaling:
+    enabled: false
+    maxReplicas: 6
+    minReplicas: 2
+    targetCPUUtilizationPercentage: 40
   enabled: true
   image:
     repository: 707767160287.dkr.ecr.us-east-1.amazonaws.com/gen3/nginx
-    tag: '2026.05'
+    tag: '2026.03'
   ingress:
     aws:
       group: dcf-staging
 sheepdog:
   enabled: true
-  replicaCount: 2
   image:
     repository: 707767160287.dkr.ecr.us-east-1.amazonaws.com/gen3/sheepdog
-    tag: '2026.05'
+    tag: '2026.03'
 sower:
   enabled: true
-  replicaCount: 2
   externalSecrets:
     createK8sPelicanServiceSecret: true
     sowerjobsG3auto: dcf-staging-sower-jobs-g3auto
     createK8sSowerJobsSecret: false
   image:
     repository: 707767160287.dkr.ecr.us-east-1.amazonaws.com/gen3/sower
-    tag: '2026.05'
+    tag: '2026.03'
   sowerConfig:
     - action: index-object-manifest
       activeDeadlineSeconds: 86400
@@ -508,7 +525,7 @@ sower:
               configMapKeyRef:
                 key: hostname
                 name: manifest-global
-        image: 707767160287.dkr.ecr.us-east-1.amazonaws.com/gen3/manifest-indexing:2026.05
+        image: 707767160287.dkr.ecr.us-east-1.amazonaws.com/gen3/manifest-indexing:2026.03
         memory-limit: 1Gi
         name: job-task
         pull_policy: Always
@@ -534,7 +551,7 @@ sower:
               configMapKeyRef:
                 key: hostname
                 name: manifest-global
-        image: 707767160287.dkr.ecr.us-east-1.amazonaws.com/gen3/download-indexd-manifest:2026.05
+        image: 707767160287.dkr.ecr.us-east-1.amazonaws.com/gen3/download-indexd-manifest:2026.03
         memory-limit: 1Gi
         name: job-task
         pull_policy: Always
@@ -552,10 +569,9 @@ sower:
             secretName: sower-jobs-g3auto
 ssjdispatcher:
   enabled: true
-  replicaCount: 2
   externalSecrets:
     credsFile: dcf-staging-ssjdispatcher-creds
   image:
     repository: 707767160287.dkr.ecr.us-east-1.amazonaws.com/gen3/ssjdispatcher
-    tag: '2026.05'
-  indexing: quay.io/cdis/indexs3client:2026.05
+    tag: '2026.03'
+  indexing: quay.io/cdis/indexs3client:2026.03
